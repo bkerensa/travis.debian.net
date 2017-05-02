@@ -49,7 +49,7 @@ Info "Starting build of ${SOURCE} using travis.debian.net"
 TRAVIS_DEBIAN_MIRROR="${TRAVIS_DEBIAN_MIRROR:-http://ftp.de.debian.org/debian}"
 TRAVIS_DEBIAN_BUILD_DIR="${TRAVIS_DEBIAN_BUILD_DIR:-/build}"
 TRAVIS_DEBIAN_TARGET_DIR="${TRAVIS_DEBIAN_TARGET_DIR:-../}"
-TRAVIS_DEBIAN_NETWORK_ENABLED="${TRAVIS_DEBIAN_NETWORK_ENABLED:-false}"
+TRAVIS_DEBIAN_NETWORK_ENABLED="${TRAVIS_DEBIAN_NETWORK_ENABLED:-true}"
 TRAVIS_DEBIAN_INCREMENT_VERSION_NUMBER="${TRAVIS_DEBIAN_INCREMENT_VERSION_NUMBER:-false}"
 
 #### Distribution #############################################################
@@ -311,7 +311,7 @@ fi
 
 Info "Running build"
 # shellcheck disable=SC2086
-docker run --privileged --env=DEB_BUILD_OPTIONS="${DEB_BUILD_OPTIONS:-}" ${ARGS} "${TAG}"
+docker run --cap-add=SYS_CHROOT --privileged --env=DEB_BUILD_OPTIONS="${DEB_BUILD_OPTIONS:-}" ${ARGS} "${TAG}"
 
 Info "Copying build artefacts to ${TRAVIS_DEBIAN_TARGET_DIR}"
 mkdir -p "${TRAVIS_DEBIAN_TARGET_DIR}"
