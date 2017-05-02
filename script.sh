@@ -266,7 +266,6 @@ if [ "${TRAVIS_DEBIAN_EXTRA_REPOSITORY:-}" != "" ]
 then
 	cat >>Dockerfile <<EOF
 RUN echo "deb ${TRAVIS_DEBIAN_EXTRA_REPOSITORY}" >> /etc/apt/sources.list
-RUN echo "deb-src ${TRAVIS_DEBIAN_EXTRA_REPOSITORY}" >> /etc/apt/sources.list
 RUN apt-get update
 EOF
 fi
