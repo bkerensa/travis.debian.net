@@ -223,11 +223,11 @@ RUN echo "deb-src ${TRAVIS_DEBIAN_MIRROR} experimental main" >> /etc/apt/sources
 EOF
 fi
 
-TRAVIS_DEBIAN_EXTRA_PACKAGES="cowbuilder config-package-dev"
+TRAVIS_DEBIAN_EXTRA_PACKAGES="cowbuilder config-package-dev sudo"
 
 case "${TRAVIS_DEBIAN_EXTRA_REPOSITORY:-}" in
 	https:*)
-		TRAVIS_DEBIAN_EXTRA_PACKAGES="${TRAVIS_DEBIAN_EXTRA_PACKAGES} apt-transport-https"
+		TRAVIS_DEBIAN_EXTRA_PACKAGES="${TRAVIS_DEBIAN_EXTRA_PACKAGES} apt-transport-https sudo"
 		;;
 esac
 
@@ -278,7 +278,8 @@ RUN git checkout .travis.yml || true
 RUN mkdir -p ${TRAVIS_DEBIAN_BUILD_DIR}
 
 RUN ARCH=amd64 DIST=testing git-pbuilder create
-RUN sudo ARCH=amd64 DIST=testing /usr/sbin/cowbuilder --execute 'apt -y install apt-transport-https apt-transport-tor gnupg2 ca-certificates' --architecture amd64 --basepath /var/cache/pbuilder/base-testing-amd64.cow --save
+RUN sudo ARCH=amd64 DIST=testing /usr/sbin/cowbuilder --execute 'apt -y install apt-transport-https apt-transport-tor gnupg2 ca-certificatesbuild-essential equivs devscripts git-buildpackage ca-certificates pristine-tar lintian ${TRAVIS_DEBIAN_EXTRA_PACKAGES}' --architecture amd64 --basepath /var/cache/pbuilder/base-testing-amd64.cow --save
+
 RUN sudo ARCH=amd64 DIST=testing /usr/sbin/cowbuilder --execute 'echo "deb tor+https://devrepo.subgraph.com/subgraph/ aaron main" > /etc/apt/sources.list.d/subgraph.list' --architecture amd64 --basepath /var/cache/pbuilder/base-testing-amd64.cow --save
 RUN sudo ARCH=amd64 DIST=testing /usr/sbin/cowbuilder --execute "wget -O- ${TRAVIS_DEBIAN_EXTRA_REPOSITORY_GPG_URL} | apt-key add -; apt-get update;" --architecture amd64 --basepath /var/cache/pbuilder/base-testing-amd64.cow --save
 
