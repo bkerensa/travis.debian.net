@@ -311,7 +311,7 @@ fi
 
 Info "Running build"
 # shellcheck disable=SC2086
-docker run --env=DEB_BUILD_OPTIONS="${DEB_BUILD_OPTIONS:-}" ${ARGS} "${TAG}"
+docker run --privileged --env=DEB_BUILD_OPTIONS="${DEB_BUILD_OPTIONS:-}" ${ARGS} "${TAG}"
 
 Info "Copying build artefacts to ${TRAVIS_DEBIAN_TARGET_DIR}"
 mkdir -p "${TRAVIS_DEBIAN_TARGET_DIR}"
