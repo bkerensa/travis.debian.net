@@ -223,7 +223,7 @@ RUN echo "deb-src ${TRAVIS_DEBIAN_MIRROR} experimental main" >> /etc/apt/sources
 EOF
 fi
 
-TRAVIS_DEBIAN_EXTRA_PACKAGES=""
+TRAVIS_DEBIAN_EXTRA_PACKAGES="cowbuilder config-package-dev"
 
 case "${TRAVIS_DEBIAN_EXTRA_REPOSITORY:-}" in
 	https:*)
